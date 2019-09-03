@@ -1,0 +1,29 @@
+!pip install snownlp #针对中文自然语言处理
+from snownlp import SnowNLP
+s = SnowNLP(u'这个东西真心很赞')
+s.words # 分词
+
+s.pinyin #汉字转拼音，return a list
+
+s.sentiments  # The probability that the text is positive sentiment
+
+text = u'''王朔，本身就是一个行为艺术家。他坚持这自己的原则，
+而且让人看起来难理解。他为自己的女儿写了一本书，但是女儿嫁人的时候，
+竟然没有出席。事后他的好友陈丹青说：“他扛不住，他没有勇气在这”
+他从不买房，但是又有很多女生愿意为他买房子。徐静蕾算一个。他从不留积蓄，他说靠朋友就够了。
+他的书名都起的够犀利，够猛。他自称自己为狂人'''
+
+s1 = SnowNLP(text)
+s1.keywords(3)  #提取三个关键词
+s1.summary(3)   #文本摘要，提取三个关键句
+s1.sentences    # 分句
+
+#------------------------
+# TF*IDF , term frequency * inverse document frequency, idf用来形容一个词语的普遍重要性，计算公式为 IDF(x) = log (N+1/N(x)+1) + 1
+# N 为总共的文档数，N(x)为包含词语x的文档数 ， 计算公式不唯一
+
+s2 = SnowNLP([['这篇', '文章'],
+             ['那篇', '论文'],
+             ['这个']])
+s2.tf
+s2.idf
