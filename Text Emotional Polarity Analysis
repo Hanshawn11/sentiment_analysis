@@ -1,0 +1,19 @@
+#中文分词，下载中文停用词表
+import jieba
+
+def sent2word(sentence):
+  seglist = jieba.cut(sentence)
+  segResult = []
+  for w in seglist:
+    segResult.append(w)
+    
+  stopwords = (open('中文停用词表.txt')).readlines()
+  newSent = []
+  for word in segResult:
+    if word in stopwords:
+      continue
+    else:
+      newSent.append(word)
+      
+  return newSent
+      
