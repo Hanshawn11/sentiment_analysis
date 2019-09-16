@@ -1,0 +1,28 @@
+#Data processing
+# I use the kaggle Datafiniti_Hotel_Reviews data 
+
+import csv
+csvFile = open('file_path', "r")
+dict_reader = csv.DictReader(csvFile)
+# 输出第一行，也就是数据名称那一行,check data
+print(dict_reader.fieldnames) 
+
+reader = csv.reader(csvFile)
+
+#原版格式不太好，重新写入一下，只留下score 和 reviews
+fileHeader = ["score", "reviews"]
+new_File = open("score_reviews.csv", "w")
+writer = csv.writer(new_File)
+writer.writerow(fileHeader)
+
+for item in reader: 
+    writer.writerow([item[16],item[18]])  #16 is score ,18 is text
+      
+csvFile.close()
+
+
+import pandas as pd
+
+df = pd.read_csv("/content/score_reviews.csv")    # 用pandas处理csv， 将score >= 3 的标记为 1，剩下的标记为 0 
+df.loc[df.score<3,'score'] = 0
+df.loc[df.score>=3,'score'] = 1
