@@ -1,0 +1,26 @@
+# 处理文本,清洗数据包
+
+import pandas as pd
+import gensim.downloader as api
+vector_model = api.load("glove-wiki-gigaword-100") 
+import nltk
+import re
+nltk.download('punkt')
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+stop_words = stopwords.words('english')
+for w in ['!',',','.','?','-s','-ly','</s>','s',"'s",'...','More','0','1','2',
+         '3','4','5','6','7','8','9','I']:
+    stop_words.append(w)
+
+df = pd.read_csv("/content/score_reviews.csv")
+df.loc[df.score<3,'score'] = 0
+df.loc[df.score>=3,'score'] = 1
+
+for i in range(0, 10):
+    txt = (df.iloc[i]['reviews']).lower()          # 将pandas df 中reviews列的文本清洗
+    txt = nltk.word_tokenize(txt)
+    txt = [word for word in txt if word not in stop_words]
+    txt = [word for word in txt if word in vector_model.vocab]
+    print(type(txt),txt)
+    i += 1
