@@ -1,6 +1,7 @@
 # 处理文本,清洗数据包
 
 import pandas as pd
+import numpy as np
 import gensim.downloader as api
 vector_model = api.load("glove-wiki-gigaword-100") 
 import nltk
@@ -17,10 +18,34 @@ df = pd.read_csv("/content/score_reviews.csv")
 df.loc[df.score<3,'score'] = 0
 df.loc[df.score>=3,'score'] = 1
 
-for i in range(0, 10):
-    txt = (df.iloc[i]['reviews']).lower()          # 将pandas df 中reviews列的文本清洗
+def getWordVecs(wordList,model):
+    vecs = []
+    for word in wordList:
+        try:
+            vecs.append(model[word])
+        except KeyError:
+            continue
+    return np.array(vecs, dtype='float')
+
+#将情感tag 1/0 以及句子的向量表达 写入新的csv文件
+
+new_fileheader = ['senti','txt_vec']
+new_csvfile = open('senti_txtvec.csv','w')
+new_writer = csv.writer(new_csvfile)
+new_writer.writerow(new_fileheader)
+
+i = 0
+for i in range(0, len(df)):
+    txt = (df.iloc[i]['reviews']).lower()
+    score=(df.iloc[i]['score'])
     txt = nltk.word_tokenize(txt)
     txt = [word for word in txt if word not in stop_words]
     txt = [word for word in txt if word in vector_model.vocab]
-    print(type(txt),txt)
+    vec = getWordVecs(txt,vector_model)
+    mean_vec = sum(np.array(vec)/len(vec)) # for each sentence, the mean vector of every words 
+                                           #in it is used to represent this sentence. 
+    new_writer.writerow([score,mean_vec])
+    #print(mean_vec)
     i += 1
+    
+new_csvfile.close()
