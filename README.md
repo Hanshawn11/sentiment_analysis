@@ -1,19 +1,15 @@
-# NLP-level1
-# 周知のように、「ビッグデダーた算命」という課題は近年に幅広い注目を浴びました。「感情分析」は先述したテーマの小さな分野の一つとして、多数の研究者たちに研究されました。このリポジトリは拙劣な試みであります。
+# NLP-Sentiment analysis
+This is an sentiment analysis repository for hotel reviews(English txt).
 
-「情感极性分析」是对带有感情色彩的主观性文本进行分析、处理、归纳和推理的过程。按照处理文本的类别不同，可分为基于新闻评论的情感分析和基于产品评论的情感分析。其中，前者多用于舆情监控和信息预测，后者可帮助用户了解某一产品在大众心目中的口碑。
-目前常见的情感极性分析方法主要是两种：基于情感词典的方法和基于机器学习的方法。本文代码选择了机器学习的方法。
-
-情感词典方法需要的数据：
-1 情感词典及对应分数，BosonNLP　情感词典。
-1.1 否定词词典
-1.2 程度副词词典
-1.3 停用词词典
-
+Sentiment polarity analysis is a process of analyzing and processing emotional texts. According to the kinds of processed texts, it can be divided into sentiment analysis based on news commentary and sentiment analysis based on product reviews. Among them, the former is mostly used for public opinion monitoring and information prediction, and the latter can help users understand the reputation of a certain product.
+At present, there are two main methods of sentiment polarity analysis: sentiment dictionary-based methods and machine learning-based methods.For dictionary-based method, we usually need the following data: sent dictionary and score(Boson NLP), Negative word dictionary, Degree adverb dictionary, Stop word dictionary. The process is very simple, here is an example:
 eg： 我非常讨厌害说谎
 seg --> 我/非常/讨厌/说谎
-非常 adv ， 讨厌 not word,  说谎 senti word
+非常 adv word ， 讨厌 Negative Word,  说谎 sentiment word
 
-finalSentiScore = (-1) ^ (num of notWords) * degreeNum * sentiScore
+finalSentiScore = (-1) ^ (num of NegativeWords) * degreeword Num * senti word Score
 finalScore = sum(finalSentiScore)
+
+In this repository, I choosed the machine learning-based method. The data you need is only the hotel reviews txt.The process is divided into three steps. Simply put, the first: Organize, clean the data, and make a neat format（sent_tag --- review text）, second: Processing text with word2vec(or other word embedding method), finnaly: Reduce dimensionality and choose a machine learning model to fit.
+
 
