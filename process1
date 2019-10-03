@@ -1,15 +1,15 @@
 #Data processing
-# I use the kaggle Datafiniti_Hotel_Reviews data 
+# I use the kaggle Datafiniti_Hotel_Reviews data as training data 
 
 import csv
 csvFile = open('file_path', "r")
 dict_reader = csv.DictReader(csvFile)
-# 输出第一行，也就是数据名称那一行,check data
-print(dict_reader.fieldnames) 
 
+# check the first line, which is the line of the data name
+# print(dict_reader.fieldnames) 
 reader = csv.reader(csvFile)
 
-#原版格式不太好，重新写入一下，只留下score 和 reviews
+#The original format is not very good, rewrite it  to remain reviews and score
 fileHeader = ["score", "reviews"]
 new_File = open("score_reviews.csv", "w")
 writer = csv.writer(new_File)
@@ -23,6 +23,6 @@ csvFile.close()
 
 import pandas as pd
 
-df = pd.read_csv("/content/score_reviews.csv")    # 用pandas处理csv， 将score >= 3 的标记为 1，剩下的标记为 0 
+df = pd.read_csv("/content/score_reviews.csv")    # tagging data， if score >= 3 tag 1 as positive，otherwise tag 0 as neg
 df.loc[df.score<3,'score'] = 0
 df.loc[df.score>=3,'score'] = 1
