@@ -3,7 +3,8 @@
 import pandas as pd
 import numpy as np
 import gensim.downloader as api
-vector_model = api.load("glove-wiki-gigaword-100") 
+vector_model = api.load("glove-wiki-gigaword-100")  # Since this is a practice, I use this simple word2vec model
+                                                    # which just has 100_dim to represent a word. 
 import nltk
 import re
 nltk.download('punkt')
