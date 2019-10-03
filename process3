@@ -38,7 +38,7 @@ plt.xlabel('n_components')
 plt.ylabel('explained_variance_')
 plt.show()   
 
-#从图中看出40维特征即可覆盖大部分信息，所以n_components = 40
+# It can be seen from the figure that 40-dimensional features can cover most of the information, so I set n_components = 40
 Y_pca = PCA(n_components = 40).fit_transform(Y)
 clf = svm.SVC(C=2, probability = True, gamma='auto')
 clf.fit(Y_pca,x)
@@ -47,7 +47,7 @@ print('Test Accuracy: %.2f'% clf.score(Y_pca,x))
 >>0.89
 # 这里可以选择画一下ROC curve
 
-#保存模型
+# save model
 import pickle
 model = clf.fit(Y_pca,x)
 store = pickle.dumps(model)
@@ -55,12 +55,14 @@ f=open('hotel_svm.model', "wb+")
 f.write(store)
 f.close()
 
-##载入使用模型
-#选取一条评论
-test_review = np.array(Y[0])
-test1 = test_review[:40]
-test = test1.reshape(1,-1)
 
+#take a review as example 
+
+test_review = np.array(Y[0])
+test1 = test_review[:40]   # input need to be 40 dim
+test = test1.reshape(1,-1) 
+
+#load model
 f2=open('/content/hotel_svm.model','rb')
 loader = f2.read()
 model1=pickle.loads(loader)
